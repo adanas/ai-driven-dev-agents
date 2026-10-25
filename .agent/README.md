@@ -29,10 +29,11 @@ sequenceDiagram
     participant QA as QA & E2E Verifier
 
     User->>Orchestrator: 新機能・修正の要望
-    Orchestrator->>Spec: 要求分析・仕様策定を依頼
-    Spec-->>Orchestrator: 仕様書・受入基準 (Given-When-Then)
-    opt 仕様の重大な確認事項
-        Orchestrator->>User: 仕様の確認・合意
+    Orchestrator->>Spec: 要求分析・仕様・作業計画策定を依頼
+    Spec-->>Orchestrator: 仕様書・受入基準・作業計画 (タスク一覧)
+    Orchestrator->>User: 仕様と作業計画の提示 & GitHub Issue登録の要否確認
+    opt GitHub Issue登録を希望する場合
+        Orchestrator->>User: GitHub Issue作成完了報告
     end
 
     Orchestrator->>Dev: TDDサイクルで実装を依頼
