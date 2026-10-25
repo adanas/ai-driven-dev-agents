@@ -89,8 +89,17 @@ cp -r /Users/sanada_a/repo/ai-driven-dev-agents/.agent /path/to/your-existing-pr
 * **[template_prd_and_spec.md](.agent/specs/template_prd_and_spec.md)**:
   * チーム指定のドキュメントフォーマットや設計思想（DDD、クリーンアーキテクチャ等）を追加
 
-#### 4. CI/CDパイプラインやGitHub Actionsとの統合
-Pull Request作成時に `code-critic.md` のプロンプトをGitHub Actionで実行することで、**24時間365日稼働する自動AIレビュアー**としてCI/CDに組み込む運用が可能です。
+#### 4. GitHub Actions CI連携（PR自動コードレビューBot）
+本リポジトリには、Pull Requestが開かれた際に自動で `code-critic` によるセキュリティ・コードレビューを実行するGitHub Actionsワークフローが同梱されています。
+
+1. **GitHubリポジトリのSecretsを設定**:
+   - `Settings` -> `Secrets and variables` -> `Actions` に移動
+   - `GEMINI_API_KEY`（または `OPENAI_API_KEY`）を登録
+2. **自動レビューの動作**:
+   - PRが作成または更新されると、`.github/workflows/aidd-critic.yml` が自動トリガー
+   - Git差分（Diff）を解析し、OWASPセキュリティ基準・エッジケース・SOLID原則を監査
+   - 結果がPRのコメントに自動投稿されます
+   - **重大な指摘（Must Fix / REQUEST_CHANGES）がある場合、マージがブロック（CI失敗）** され、品質が担保されます
 
 ---
 
@@ -98,6 +107,12 @@ Pull Request作成時に `code-critic.md` のプロンプトをGitHub Actionで�
 
 ```text
 ai-driven-dev-agents/
+├── .github/
+│   ├── workflows/
+│   │   └── aidd-critic.yml               # PR自動コードレビューCI
+│   ├── scripts/
+│   │   └── run_critic_review.py          # レビュー実行スクリプト（依存なし）
+│   └── pull_request_template.md          # AIDD標準PRテンプレート
 ├── .agent/
 │   ├── agents/                           # 各専門エージェントの定義・プロンプト
 │   │   ├── lead-orchestrator.md          # 統括・オーケストレーター

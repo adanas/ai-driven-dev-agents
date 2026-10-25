@@ -69,3 +69,9 @@ sequenceDiagram
 - [仕様書・受入基準テンプレート](specs/template_prd_and_spec.md)
 - [コードレビュー・セキュリティチェックリスト](checklists/critic_code_review_checklist.md)
 - [統合QA・E2E検証チェックリスト](checklists/qa_e2e_checklist.md)
+
+## 5. CI/CD連携（GitHub Actions）
+- ワークフロー定義: [`.github/workflows/aidd-critic.yml`](../.github/workflows/aidd-critic.yml)
+- レビュー実行エンジン: [`.github/scripts/run_critic_review.py`](../.github/scripts/run_critic_review.py)
+- PRテンプレート: [`.github/pull_request_template.md`](../.github/pull_request_template.md)
+
